@@ -25,7 +25,7 @@ def setPinByHumid(humid):
     if(humid > 80):
         GPIO.output(fanPIN, GPIO.LOW)   #fan on
     else:
-        GPIO.output(fanPIN, GPIO.LOW)   #fan off
+        GPIO.output(fanPIN, GPIO.HIGH)   #fan off
 
 while 1:
     H, T = getSensorData()
