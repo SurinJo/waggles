@@ -21,7 +21,7 @@ def getSensorData():
     print("Humidity: ", H, "  Temperature: ", T)
     return int(H), int(T)
 
-def setPinByhHumid(humid):
+def setPinByHumid(humid):
     if(humid > 80):
         GPIO.output(fanPIN, GPIO.LOW)   #fan on
     else:
