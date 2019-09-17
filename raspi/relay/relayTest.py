@@ -7,9 +7,9 @@ GPIO.setwarnings(False)
 GPIO.cleanup()
 
 #-----------PIN # SETTINGS------------
-batteryPIN = 4
-fanPIN = 17
-heatingPIN = 27
+batteryPIN = 18
+fanPIN = 12
+heatingPIN = 21
 
 pinList = [batteryPIN, fanPIN, heatingPIN]
 
