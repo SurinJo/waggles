@@ -3,7 +3,7 @@ import Adafruit_DHT
 import sys
 from ina219 import INA219, DeviceRangeError
 import time
-from time import sleep
+import os
 
 #----------GPIO SETTINGS------------
 GPIO.setmode(GPIO.BCM)
@@ -21,6 +21,8 @@ pinStatus = [-1,-1]
 for i in pinList:
     GPIO.setup(i, GPIO.OUT)
 
+GPIO.output(pinList[0],GPIO.LOW)
+
 #-----------ElECTRICAL VALUE, SENSOR SETTINGS------------
 SHUNT_OHMS = 0.1
 MAX_EXPECTED_AMPS = 2.0
@@ -36,10 +38,10 @@ def setRelayByData(H, T):
 
 def setRelayByInput(selectedFunc):
    pinStatus[selectedFunc] = -pinStatus[selectedFunc]
-   if pinStatus[selectedFunc] == 1:
-       GPIO.output(pinList[selectedFunc],GPIO.HIGH)
+   if pinStatus[selectedFunc] == -1:
+       GPIO.output(pinList[selectedFunc+1],GPIO.HIGH)
    else:
-       GPIO.output(pinList[selectedFunc],GPIO.LOW)
+       GPIO.output(pinList[selectedFunc+1],GPIO.LOW)
 
 #-----------FUNCs_Sensor------------
 def getThermalSensorData():
@@ -52,23 +54,45 @@ def getCurrentSensorData():
     P = ina.power()
     return V, I, P
 
+#-----------FUNCs_Print-------------------
+
 def printCondition(H, T, V):
-    print("Humidity: %f %%", H)
-    print("Temperature: %f C", T)
+    print("Humidity: {0:0.2f} %".format(H))
+    print("Temperature: {0:0.1f} C".format(T))
     print("Bus Voltage: {0:0.4f} V".format(V))
     #print("Bus Current: {0:0.2f} mA".format(I))
     #print("Power: {0:0.2f} mW".format(P))
-
+    a = input()
+    
 def printMenu():
     print("-----waggles_prototype-----")
     print("0. Print Condition")
     print("1. Fan On/Off")
-    print("2. Heater On/OFf")
+    print("2. Heater On/Off")
     print("3. Observation")
     print("4. Program Exit")
     print("---------------------------")
+   
+    print("fan  heater")
+    for k in pinStatus:
+        if k == -1:
+           print("OFF  ",end= '')
+        else:
+           print("ON   ",end= '')
+    
+    print(" ")
+    print("----------------------------")
 
+#--------------FUNCs_data
 
+def makeResultFile(H,T,V):
+    print("Input Time (hour)")
+    time = input()
+    print("Input Time Interval")
+    timeInterval = input()
+    
+
+#-----------------MAIN--------------
 
 while True:
     printMenu()
@@ -76,20 +100,23 @@ while True:
     H, T = getThermalSensorData()
     V, I, P = getCurrentSensorData()
 
-    setRelayByData(H, T)
+    #setRelayByData(H, T)
     selectedFunc = input()
 
-    if selectedFunc == 0:
+    if selectedFunc == "0":
         printCondition(H, T, V)
-    elif selectedFunc == 1 | selectedFunc==2:
-        setRelayByInput(selectedFunc)
-    elif selectedFunc ==4:
+    elif selectedFunc == "1" or selectedFunc=="2":
+        setRelayByInput(int(selectedFunc)-1)
+    elif selectedFunc == "3":
+        makeResultFile(H,T,V)
+    elif selectedFunc =="4":
         sys.exit()
     else:
         print("wrong input")
         continue
+    os.system('clear')
 
-
+    
 
 
 
