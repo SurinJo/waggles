@@ -13,7 +13,7 @@ currentDT = datetime.datetime.now()
 
 
 #---------------------
-fname = "windEnergyMonitor.csv"
+fname = "windEnergyMonitor0919.csv"
 time_interval = 5 * 60
 
 def difTime():
