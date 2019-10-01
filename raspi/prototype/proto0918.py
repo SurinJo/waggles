@@ -1,9 +1,8 @@
 import RPi.GPIO as GPIO
 import Adafruit_DHT
 import sys
-from ina219 import INA219, DeviceRangeError
 import time
-import os
+from ina219 import INA219, DeviceRangeError
 
 #----------GPIO SETTINGS------------
 GPIO.setmode(GPIO.BCM)
@@ -83,7 +82,7 @@ def printMenu():
     print(" ")
     print("----------------------------")
 
-#--------------FUNCs_data
+#--------------FUNCs_data--------------
 
 def makeResultFile(H,T,V):
     print("Input Time (hour)")
@@ -92,8 +91,7 @@ def makeResultFile(H,T,V):
     timeInterval = input()
     
 
-#-----------------MAIN--------------
-
+#---------------MAIN--------------
 while True:
     printMenu()
 
@@ -101,24 +99,17 @@ while True:
     V, I, P = getCurrentSensorData()
 
     #setRelayByData(H, T)
-    selectedFunc = input()
+    selectedFunc = int(input())
 
-    if selectedFunc == "0":
+    if selectedFunc == 0:
         printCondition(H, T, V)
-    elif selectedFunc == "1" or selectedFunc=="2":
-        setRelayByInput(int(selectedFunc)-1)
-    elif selectedFunc == "3":
+    elif selectedFunc == 1 or selectedFunc == 2:
+        setRelayByInput(selectedFunc-1)
+    elif selectedFunc == 3:
         makeResultFile(H,T,V)
-    elif selectedFunc =="4":
+    elif selectedFunc == 4:
         sys.exit()
     else:
         print("wrong input")
         continue
-    os.system('clear')
-
-    
-
-
-
-
-
+    #os.system('clear')
