@@ -7,7 +7,6 @@ int value = 0;
 void setup(){
    pinMode(analogInput, INPUT);
    Serial.begin(9600);
-   //Serial.print("DC VOLTMETER");
 }
 void loop(){
    // read the value at analog input
@@ -15,7 +14,5 @@ void loop(){
    vout = (value * 5.0) / 1024.0; // see text
    vin = vout / (R2/(R1+R2)); 
    
-  Serial.print(vin,2);
-  Serial.println();
-  delay(500);
+delay(500);
 }

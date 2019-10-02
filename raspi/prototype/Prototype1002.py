@@ -23,13 +23,15 @@ GPIO.setup(fanPIN, GPIO.OUT)
 #-----------VOLTAGE SENSOR SETTINGS-------------
 port = '/dev/ttyACM0'
 brate = 9600 #boudrate
-cmd = 'temp'
 seri = serial.Serial(port, baudrate = brate, timeout = None)
 
-
+#-----------Global Var-------------------------
+fanStatus =0
+date = datetime.datetime.now()
 #-----------File------------
-fname = "solarWithFanPrototype.csv"
-time_interval = 10
+
+fname = "solarWithFanPrototype"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
+time_interval = 1
 
 def difTime():
     sub = datetime.timedelta(1)
@@ -38,31 +40,35 @@ def difTime():
 def main():  
     f = open(fname,"w",newline="")
     csv_writer = csv.writer(f)
-    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage'])
+    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage', 'FanStatus'])
     f.close()
+    V = 0
 
     while True:
         H, T = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'17')
-        V=0
+        
         if seri.in_waiting != 0:
             content = seri.readline()
-
             V = content[:-2].decode()
-    
-        key = int(input())
-        if(key == 0):
-            GPIO.output(fanPIN, GPIO.LOW)
-        elif(key == 1):
-            GPIO.output(fanPIN, GPIO.HIGH)
-        elif(key == 2):
-            sys.exit()
         else:
-            print("Wrong Input")
-
+            print("Can't get serial")
+        
+        
+        GPIO.output(fanPIN, GPIO.LOW)
+        
+#----------Fan control--------
+        if(T <= 30):
+            GPIO.output(fanPIN, GPIO.LOW)
+            fanStatus = 0
+        else:
+            GPIO.output(fanPIN, GPIO.HIGH)
+            fanStatus = 1
+#-----------------------------
+        
         now = str(datetime.datetime.now()-difTime())
         f = open(fname,"a",newline="")
         csv_writer = csv.writer(f)
-        csv_writer.writerow([now, H, T, V])
+        csv_writer.writerow([now, H, T, V, fanStatus])
         f.close()
         time.sleep(time_interval)
 

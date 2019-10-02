@@ -25,7 +25,8 @@ port = '/dev/ttyACM0'
 brate = 9600 #boudrate
 seri = serial.Serial(port, baudrate = brate, timeout = None)
 
-
+#-----------Global Var-------------------------
+fanStatus =0
 #-----------File------------
 fname = "solarWithFanPrototype.csv"
 time_interval = 600
@@ -37,7 +38,7 @@ def difTime():
 def main():  
     f = open(fname,"w",newline="")
     csv_writer = csv.writer(f)
-    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage'])
+    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage', 'FanStatus'])
     f.close()
     V = 0
 
@@ -57,14 +58,16 @@ def main():
 #----------Fan control--------
         if(T <= 30):
             GPIO.output(fanPIN, GPIO.LOW)
+            fanStatus = 0
         else:
             GPIO.output(fanPIN, GPIO.HIGH)
+            fanStatus = 1
 #-----------------------------
 
         now = str(datetime.datetime.now()-difTime())
         f = open(fname,"a",newline="")
         csv_writer = csv.writer(f)
-        csv_writer.writerow([now, H, T, V])
+        csv_writer.writerow([now, H, T, V, fanStatus])
         f.close()
         time.sleep(time_interval)
 
