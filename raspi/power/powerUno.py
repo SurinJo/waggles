@@ -6,10 +6,11 @@ cmd = 'temp'
 
 seri = serial.Serial(port, baudrate = brate, timeout = None)
 
-print(seri.name)
+#print(seri.name)
 
 
 while True:
     if seri.in_waiting != 0:
         content = seri.readline()
+        #print(content)
         print(content[:-2].decode())

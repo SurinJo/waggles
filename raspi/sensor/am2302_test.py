@@ -6,7 +6,7 @@ import datetime
 from socket import gethostname
 
 def get_sensor_data():
-	H, T = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'4')
+	H, T = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'17')
 	return str(H), str(T)
 
 def inditime():
