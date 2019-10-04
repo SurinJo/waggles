@@ -4,7 +4,7 @@ float vin = 0.0;
 float R1 = 30000.0; //  
 float R2 = 7500.0; // 
 int value = 0;
-void setup(){
+void setup(){ 
    pinMode(analogInput, INPUT);
    Serial.begin(9600);
    //Serial.print("DC VOLTMETER");
