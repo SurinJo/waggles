@@ -6,31 +6,30 @@ from ina219 import INA219, DeviceRangeError
 from time import sleep
 import Adafruit_DHT
 import sys
-import serial
-
 
 #----------GPIO SETTINGS------------
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.cleanup()
 
-
+#----------INA SETTING------------
+SHUNT_OHMS = 0.1
+MAX_EXPECTED_AMPS = 2.0
+ina = INA219(SHUNT_OHMS, MAX_EXPECTED_AMPS)
+ina.configure(ina.RANGE_16V)
+currentDT = datetime.datetime.now()
+'''
+fan setting
 #-----------FAN PIN SETTINGS------------
 fanPIN = 4
 GPIO.setup(fanPIN, GPIO.OUT)
-
-
-#-----------VOLTAGE SENSOR SETTINGS-------------
-port = '/dev/ttyACM0'
-brate = 9600 #boudrate
-seri = serial.Serial(port, baudrate = brate, timeout = None)
-
+'''
 #-----------Global Var-------------------------
 fanStatus =0
 date = datetime.datetime.now()
 
 #-----------File------------
-fname = "solarWithFanPrototype"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
+fname = "Prototype"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
 time_interval = 600
 
 def difTime():
@@ -40,23 +39,17 @@ def difTime():
 def main():  
     f = open(fname,"w",newline="")
     csv_writer = csv.writer(f)
-    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage', 'FanStatus'])
+    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage'])
     f.close()
     V = 0
     
     while True:
-        H, T = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'17')
-        if seri.in_waiting != 0:
-            content = seri.readline()
-            V = content[:-2].decode()
-            #print(V)
-        else:
-            print("Can't get serial")
-        
+        H, T = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'4')
+        bus_voltage = ina.voltage()
         now = str(datetime.datetime.now()-difTime())
         f = open(fname,"a",newline="")
         csv_writer = csv.writer(f)
-        csv_writer.writerow([now, H, T, V, fanStatus])
+        csv_writer.writerow([now, H, T,bus_voltage])
         f.close()
         time.sleep(time_interval)
 
