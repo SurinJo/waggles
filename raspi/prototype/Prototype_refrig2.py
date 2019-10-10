@@ -46,6 +46,8 @@ def main():
     
     while True:
         H, T = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'4')
+        #RH, RT = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'12')
+        #print(RH)
         bus_voltage = ina.voltage()
         now = str(datetime.datetime.now()-difTime())
         f = open(fname,"a",newline="")
