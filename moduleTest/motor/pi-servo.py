@@ -20,10 +20,10 @@ print "m = move to the middle"
 print "t = test sequence"
 print "q = stop and exit"
 
+Servo = GPIO.PWM(7, 50)						
 while True:
 	# Now we will start with a PWM signal at 50Hz at pin 18. 
 	# 50Hz should work for many servos very will. If not you can play with the frequency if you like.
-	Servo = GPIO.PWM(7, 50)						
 	#Servo = GPIO.PWM(11, 50)						
 
 	# This command sets the left position of the servo
@@ -60,7 +60,7 @@ while True:
 		for Counter in range(int(steps)):
 			Servo.ChangeDutyCycle(stepslength * (Counter + 1))
 			print stepslength * (Counter + 1)
-			time.sleep(0.5)
+			time.sleep(1)
 			
 		time.sleep(1)	
 		# PWM stop
@@ -87,7 +87,7 @@ while True:
 		for Counter in range(int(steps)):
 			Servo.ChangeDutyCycle(12.5 - (stepslength * (Counter + 1)))
 			print (12.5 - (stepslength * (Counter + 1)))
-			time.sleep(0.5)
+			time.sleep(1)
 		
 		time.sleep(1)
 		# PWM stop
