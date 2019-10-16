@@ -27,10 +27,11 @@ GPIO.setup(fanPIN, GPIO.OUT)
 #-----------Global Var-------------------------
 fanStatus =0
 date = datetime.datetime.now()
+elapsed_time =0;
 
 #-----------File------------
 fname = "Prototype"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
-time_interval = 600
+time_interval = 60 * 10
 
 def difTime():
     sub = datetime.timedelta(1)
@@ -39,17 +40,19 @@ def difTime():
 def main():  
     f = open(fname,"w",newline="")
     csv_writer = csv.writer(f)
-    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage'])
+    csv_writer.writerow(['Time', 'Humidity', 'Temperature', 'Voltage','Current','Power'])
     f.close()
     V = 0
     
     while True:
         H, T = Adafruit_DHT.read_retry(Adafruit_DHT.AM2302,'4')
         bus_voltage = ina.voltage()
-        now = str(datetime.datetime.now()-difTime())
+        bus_current = ina.current()
+        bus_power = ina.power()
+        elapsed_time = elapsed_time + time_interval/60
         f = open(fname,"a",newline="")
         csv_writer = csv.writer(f)
-        csv_writer.writerow([now, H, T,bus_voltage])
+        csv_writer.writerow([str(elapsed_time), H, T,bus_voltage,bus_current,bus_power])
         f.close()
         time.sleep(time_interval)
 
