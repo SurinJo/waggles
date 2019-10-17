@@ -31,11 +31,7 @@ date = datetime.datetime.now()
 
 #-----------File------------
 fname = "Prototype"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
-<<<<<<< HEAD
 time_interval = 600
-=======
-time_interval = 60 *10
->>>>>>> 2cccc2ea84cbc5abc3e5d73c4fa9e008d13b7a90
 
 
 def difTime():
