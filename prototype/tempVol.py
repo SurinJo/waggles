@@ -33,7 +33,6 @@ date = datetime.datetime.now()
 fname = "Prototype"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
 time_interval = 600
 
-
 def difTime():
     sub = datetime.timedelta(1)
     return sub
