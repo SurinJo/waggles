@@ -5,7 +5,7 @@ import time
 import datetime
 date = datetime.datetime.now()
 fname = "temp"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
-time_interval = 600
+time_interval = 300
 
 
 def get_sensor_data():
