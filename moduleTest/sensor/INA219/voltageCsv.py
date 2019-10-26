@@ -15,9 +15,9 @@ ina = INA219(SHUNT_OHMS, MAX_EXPECTED_AMPS)
 ina.configure(ina.RANGE_16V)
 
 #-----------GLOBAL Var----------
-fname = "temp"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
+fname = "voltageResult"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
 time_interval = 10 * 60 
-elapsed_time  = 0
+#time_interval = 1
 
 def difTime():
     sub = datetime.timedelta(1)
@@ -26,15 +26,18 @@ def difTime():
 def main():  
     f = open(fname,"w",newline="")
     csv_writer = csv.writer(f)
-    csv_writer.writerow(['time', 'bus_voltage'])
+    csv_writer.writerow(['time', 'bus_voltage','bus_current', 'bus_power'])
     f.close()
-
+    elapsed_time  = 0
+    
     while 1:
         bus_voltage = ina.voltage()
-        elapsed_time =  elapsed_time + time_interval
+        bus_current = ina.current()
+        bus_power = ina.power()
+        elapsed_time =  elapsed_time + time_interval/60
         f = open(fname,"a",newline="")
         csv_writer = csv.writer(f)
-        csv_writer.writerow([str(elapsed_time), bus_voltage])
+        csv_writer.writerow([str(elapsed_time), bus_voltage, bus_current, bus_power])
         f.close()
         time.sleep(time_interval)
 

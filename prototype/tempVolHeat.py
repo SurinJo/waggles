@@ -18,7 +18,7 @@ GPIO.setup(heatPIN, GPIO.OUT)
 #-----------FAN PIN SETTINGS------------
 fanPIN = 15
 GPIO.setup(fanPIN, GPIO.OUT)
-#-----------FAN PIN SETTINGS------------
+#-----------MINI FAN PIN SETTINGS------------
 minifanPIN = 18
 GPIO.setup(minifanPIN, GPIO.OUT)
 
@@ -38,7 +38,7 @@ fname = "result"+ str(now.month) + str(now.day) + ".csv"
 def main():  
 	f = open(fname,"w",newline="")
 	csv_writer = csv.writer(f)
-	csv_writer.writerow(['Time','Humidity','Temperature','Voltage','fan','heat'])
+	csv_writer.writerow(['Time','Humidity','Temperature','Voltage','fan','heat','miniFan'])
 	f.close()
 	while True:
 		#get the data
