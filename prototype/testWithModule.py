@@ -30,8 +30,8 @@ ina.configure(ina.RANGE_16V)
 #-----------Global Var-------------------------
 fanStatus = 0
 heatStatus = 0
-time_interval = 1
-
+time_interval = 600
+now = datetime.now()
 fname = "result"+ str(now.month) + str(now.day) + ".csv"
 
 def main():
@@ -52,7 +52,7 @@ def main():
         if(T < 15):
             GPIO.output(fanPIN, GPIO.HIGH)
             GPIO.output(heatPIN, GPIO.LOW)
-            GPIO.output(minfanPIN, GPIO.LOW)
+            GPIO.output(minifanPIN, GPIO.LOW)
             fanStatus = 0
             heatStatus = 1
 #print("T < 15")
@@ -83,7 +83,7 @@ def main():
         f = open(fname,"a", newline="")
         csv_writer = csv.writer(f)
         timeDelta = timeDelta + time_interval/60
-        csv_writer.writerow([timeDelta, round(H,2), round(T,2), round(bus_voltage,2), round(bus_current,2), round(bus_power,2), fanStatus, heatStatus])
+        csv_writer.writerow([round(timeDelta,2), round(H,2), round(T,2), round(bus_voltage,2), round(bus_current,2), round(bus_power,2), fanStatus, heatStatus])
         f.close()
         time.sleep(time_interval)
 
