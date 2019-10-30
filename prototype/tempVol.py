@@ -31,7 +31,7 @@ date = datetime.datetime.now()
 
 #-----------File------------
 fname = "Prototype"+ str(date.month) + str(date.day) + str(date.hour) + ".csv"
-time_interval = 1
+time_interval = 600
 
 def difTime():
     sub = datetime.timedelta(1)
