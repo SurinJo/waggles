@@ -10,7 +10,7 @@ from datetime import datetime
 from azure.iot.device import IoTHubDeviceClient, Message
 
 #----az iot string---
-CONNECTION_STRING = "HostName=wagglesTest.azure-devices.net;DeviceId=raspberrypiTes    t;SharedAccessKey=b3Mglcv0uIYfu2bQmKlp6ENq1iJsAdz/qEXBmhC8KnM="
+CONNECTION_STRING = "HostName=wagglesTest.azure-devices.net;DeviceId=raspberrypiTest;SharedAccessKey=b3Mglcv0uIYfu2bQmKlp6ENq1iJsAdz/qEXBmhC8KnM="
 MSG_TXT = '{{"temperature": {temperature},"humidity": {humidity}}}'
 
 
@@ -50,6 +50,7 @@ def iothub_client_telemetry_sample_run():
         client = iothub_client_init()
         print ( "IoT Hub device sending periodic messages, press Ctrl-C to exit" )
         while True:
+#temperature..
             msg_txt_formatted = MSG_TXT.format("2","2")
             message = Message(msg_txt_formatted)
     except KeyboardInterrupt:
